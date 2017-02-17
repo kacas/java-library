@@ -27,7 +27,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book getBook(UUID id) {
+    public Book getBook(byte[] id) {
         return bookRepository.findOne(id);
     }
 
@@ -37,12 +37,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateBook(UUID id, Book book) {
+    public void updateBook(byte[] id, Book book) {
 
     }
 
     @Override
-    public void deleteBook(UUID id) {
+    public void deleteBook(byte[] id) {
 
     }
 }

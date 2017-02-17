@@ -12,11 +12,11 @@ public interface BookService {
 
     public List<Book> getAllBooks();
 
-    public Book getBook(UUID id);
+    public Book getBook(byte[] id);
 
     public void addBook(Book book);
 
-    public void updateBook(UUID id, Book book);
+    public void updateBook(byte[] id, Book book);
 
-    public void deleteBook(UUID id);
+    public void deleteBook(byte[] id);
 }

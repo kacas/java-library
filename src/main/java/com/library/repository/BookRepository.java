@@ -13,6 +13,6 @@ import java.util.UUID;
  */
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, UUID> {
+public interface BookRepository extends CrudRepository<Book, byte[]> {
 
 }
