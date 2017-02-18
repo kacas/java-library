@@ -12,11 +12,13 @@ public interface BookService {
 
     public List<Book> getAllBooks();
 
-    public Book getBook(byte[] id);
+    public List<Book> getBooksBySearchCriteria(String searchCriteria);
+
+    public Book getBook(UUID id);
 
     public void addBook(Book book);
 
-    public void updateBook(byte[] id, Book book);
+    public void updateBook(UUID id, Book book);
 
-    public void deleteBook(byte[] id);
+    public void deleteBook(UUID id);
 }

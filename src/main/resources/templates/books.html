@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Library</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.css">
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
 </head>
 <body>
 
@@ -14,7 +14,19 @@
 
     <div class="container">
         <div class="starter-template">
-            <a href="books/new" class="btn btn-primary" aria-label="Left Align" style="margin-bottom: 20px;">
+
+            <form class="form-horizontal" th:action="@{/books/search}" method="get" style="float: right; width: 70%;">
+                <div class="form-group">
+                    <div class="col-sm-8" style="display: inline-flex; float: right;">
+                        <input type="text" class="form-control" name="searchCriteria">
+                        <button type="submit" class="btn btn-primary" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <a href="/books/new" class="btn btn-primary" aria-label="Left Align" style="margin-bottom: 20px;">
                 <span class="glyphicon glyphicon-plus" ></span>
             </a>
             <table class="table table-bordered table-striped">
@@ -31,18 +43,30 @@
                         <td colspan="4">No books</td>
                     </tr>
                     <tr th:each="book : ${books}">
-                        <td><a th:href="@{'books/' + ${book.id}}" th:text="${book.title}"></a></td>
+                        <td><a th:href="@{'/books/' + ${book.id}}" th:text="${book.title}"></a></td>
                         <td th:text="${book.author}"></td>
                         <td th:text="${book.isbn}"></td>
                         <td style="width: 50px;">
-                            <a th:href="@{'books/' + ${book.id}}" class="btn btn-danger" aria-label="Left Align">
+                            <button type="button" class="btn btn-danger" aria-label="Left Align" th:onclick="'javascript:deleteBook(\'' + ${book.id} + '\');'">
                                 <span class="glyphicon glyphicon-remove"></span>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        deleteBook = function (id) {
+            $.ajax({
+                url: '/books/' + id,
+                type: 'DELETE',
+                success: function(result) {
+
+                }
+            });
+        }
+    </script>
 </body>
 </html>

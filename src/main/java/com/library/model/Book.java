@@ -1,36 +1,51 @@
 package com.library.model;
 
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 /**
  * Created by Katarina on 2/16/2017.
  */
 @Entity
 @Table(name = "books")
+@Where(clause = "is_deleted='false'")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE book_id = ?")
 public class Book {
     @Id
-    @Column(name = "BookID", nullable = false, columnDefinition = "BINARY(16)")
-    private byte[] id;
+    @Column(name = "book_id", nullable = false, columnDefinition = "BINARY(16)")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
-    @Column(name = "Title")
     private String title;
 
-    @Column(name = "Description")
     private String description;
 
-    @Column(name = "Author")
     private String author;
 
-    @Column(name = "ISBN")
     private String isbn;
 
-    public byte[] getId() {
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
+    public Book(){}
+
+    public Book(UUID id, String title, String description, String author, String isbn, boolean isDeleted){
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.author = author;
+        this.isbn = isbn;
+        this.isDeleted = isDeleted;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(byte[] id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -64,6 +79,14 @@ public class Book {
 
     public void setIsbn(String isbn) {
         this.isbn = isbn;
+    }
+
+    public boolean getDeleted() {
+        return this.isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.isDeleted = deleted;
     }
 
 }
