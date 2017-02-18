@@ -2,8 +2,11 @@ package com.library.model;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 /**
@@ -19,12 +22,15 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @NotNull @NotEmpty
     private String title;
 
     private String description;
 
+    @NotNull @NotEmpty
     private String author;
 
+    @NotNull @NotEmpty @Size(min = 9, max = 17)
     private String isbn;
 
     @Column(name = "is_deleted")

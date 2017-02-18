@@ -6,9 +6,11 @@ import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,7 +52,11 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView addBook(@ModelAttribute Book book) {
+    public ModelAndView addBook(@Valid @ModelAttribute Book book, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+        {
+            return new ModelAndView("book", "book", book);
+        }
         bookService.addBook(book);
         return new ModelAndView("redirect:/books");
     }
