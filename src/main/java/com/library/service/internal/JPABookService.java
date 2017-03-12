@@ -3,6 +3,7 @@ package com.library.service.internal;
 import com.library.model.Book;
 import com.library.repository.BookRepository;
 import com.library.service.BookService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +34,12 @@ public class JPABookService implements BookService {
     }
 
     @Override
-    public Book getBook(UUID id) {
-        return bookRepository.findOne(id);
+    public Book getBook(UUID id) throws NotFoundException {
+        Book book = bookRepository.findOne(id);
+        if(book == null){
+            throw new NotFoundException(String.format("Book with id %s does not exist." , id));
+        }
+        return book;
     }
 
     @Override

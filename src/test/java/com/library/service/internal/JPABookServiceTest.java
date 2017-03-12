@@ -2,6 +2,7 @@ package com.library.service.internal;
 
 import com.library.model.Book;
 import com.library.repository.BookRepository;
+import javassist.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,7 +81,7 @@ public class JPABookServiceTest {
     }
 
     @Test
-    public void testGetBook(){
+    public void testGetBook() throws NotFoundException {
         UUID bookID = UUID.randomUUID();
         Book book = new Book(bookID, "Mockito for Spring", "", "Sujoy Acharya", "978-1-78398-378-0", false);
 

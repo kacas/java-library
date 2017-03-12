@@ -2,14 +2,15 @@ package com.library.controller;
 
 import com.library.model.Book;
 import com.library.service.BookService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getBook(@PathVariable UUID id) {
+    public ModelAndView getBook(@PathVariable UUID id) throws NotFoundException {
         ModelAndView model = new ModelAndView("book", "book", bookService.getBook(id));
         return model;
     }
@@ -52,9 +53,10 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView addBook(@Valid @ModelAttribute Book book, BindingResult bindingResult) {
+    public ModelAndView addBook(@Valid @ModelAttribute Book book, BindingResult bindingResult, HttpServletResponse response) {
         if (bindingResult.hasErrors())
         {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return new ModelAndView("book", "book", book);
         }
         bookService.addBook(book);
@@ -67,6 +69,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable UUID id) {
         bookService.deleteBook(id);
     }

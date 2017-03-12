@@ -1,6 +1,8 @@
 package com.library.service;
 
 import com.library.model.Book;
+import javassist.NotFoundException;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +16,7 @@ public interface BookService {
 
     public List<Book> getBooksBySearchCriteria(String searchCriteria);
 
-    public Book getBook(UUID id);
+    public Book getBook(UUID id) throws NotFoundException;
 
     public void addBook(Book book);
 
