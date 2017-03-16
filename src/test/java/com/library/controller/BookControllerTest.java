@@ -49,6 +49,9 @@ public class BookControllerTest extends ControllerTest {
     public void testGetBooksBySearchCriteria() throws Exception {
         String searchCriteria = "java";
 
+        createBook("Java Cookbook", "Ian F. Darwin", "", "978-0-59600-701-0");
+        createBook("Mockito for Spring", "Sujoy Acharya", "", "978-1-78398-378-0");
+
         List<Book> books = (List<Book>) mockMvc.perform(get("/books/search")
                 .param("searchCriteria", searchCriteria))
                 .andExpect(status().isOk())
