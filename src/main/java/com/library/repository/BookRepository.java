@@ -16,7 +16,8 @@ import java.util.UUID;
 @Repository
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
-    @Query("SELECT b FROM Book b WHERE (b.title LIKE %:searchCriteria% OR b.isbn LIKE %:searchCriteria% " +
-            "OR b.author LIKE %:searchCriteria%) AND b.isDeleted = FALSE")
+    @Query("SELECT b FROM Book b WHERE (LOWER(b.title) LIKE LOWER(CONCAT('%',:searchCriteria, '%')) OR " +
+            "LOWER(b.isbn) LIKE LOWER(CONCAT('%',:searchCriteria, '%')) OR " +
+            "LOWER(b.author) LIKE LOWER(CONCAT('%',:searchCriteria, '%'))) AND b.isDeleted = FALSE")
     List<Book> findBooksBySearchCriteria(@Param("searchCriteria") String searchCriteria);
 }
